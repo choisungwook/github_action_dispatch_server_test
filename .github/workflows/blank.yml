@@ -1,26 +1,20 @@
 name: CI
 
 on:
-  push:
-    branches: ["main"]
+  # push:
+  #   branches: ["main"]
 
   # reference: https://docs.github.com/ko/actions/using-workflows/events-that-trigger-workflows#repository_dispatch
   repository_dispatch:
     types: [TRIGGER_API_TEST]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v3
 
-    # Runs a single command using the runners shell
     - name: Run a one-line script
       run: echo Hello, world!
 
@@ -29,5 +23,5 @@ jobs:
       run: |
         echo ::set-output name=sha_short::$(git rev-parse --short=8 ${{ github.sha }})
 
-    - name: echo commit id
-      run: echo "${{ github.event.client_payload.repository }}"
+    - name: echo message from payload
+      run: echo "${{ github.event.client_payload.message }}"
